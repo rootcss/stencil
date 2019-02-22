@@ -1,8 +1,10 @@
 language: java
 jdk:
 - oraclejdk8
+install:
+- ./gradlew assemble -x signArchives
 script:
-- ./gradlew clean build -x signArchives
+- ./gradlew check
 after_success:
 - ./deploy.sh
 env:
