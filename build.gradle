@@ -157,3 +157,5 @@ nexusPublishing {
     }
 }
 
+closeRepository.mustRunAfter publishToSonatype
+closeAndReleaseRepository.mustRunAfter publishToSonatype
