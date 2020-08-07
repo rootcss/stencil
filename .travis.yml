@@ -18,19 +18,10 @@ install: skip
 script:
   - './gradlew clean check'
 
-before_deploy:
-  - 'openssl aes-256-cbc -iv $encrypted_49353df1995f_iv -K $encrypted_49353df1995f_key -in key.gpg.enc -out key.gpg -d'
-
 deploy:
-  # Deploy releases
-  - provider: script
-    script: ./gradlew publishToSonatype closeAndReleaseRepository -x test  -PossrhUsername=${SONATYPE_USERNAME} -PossrhPassword=${SONATYPE_PASSWORD} -Psigning.keyId=${GPG_KEY_ID} -Psigning.password=${GPG_KEY_PASSPHRASE} -Psigning.secretKeyRingFile=key.gpg
-    skip_cleanup: true
-    on:
-      tags: true
   # Deploy snapshots
   - provider: script
-    script: ./gradlew publishToSonatype -x test -x sign  -PossrhUsername=${SONATYPE_USERNAME} -PossrhPassword=${SONATYPE_PASSWORD} -Psigning.keyId=${GPG_KEY_ID} -Psigning.password=${GPG_KEY_PASSPHRASE} -Psigning.secretKeyRingFile=key.gpg
+    script: 'sh ./deploy.sh'
     skip_cleanup: true
     on:
       branch: master
